@@ -1,0 +1,25 @@
+{
+    "contents" : "",
+    "created" : 1478648159523.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "3880D005",
+    "lastKnownWriteTime" : 4299745280,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "np6clt53um",
+        "caption" : "aidsSystemData3",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=aidsSystemData3&cache_key=np6clt53um",
+        "displayedObservations" : 36,
+        "environment" : "",
+        "object" : "aidsSystemData3",
+        "totalObservations" : 36,
+        "variables" : 38
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "type" : "r_dataframe"
+}

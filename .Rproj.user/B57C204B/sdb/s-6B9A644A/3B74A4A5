@@ -1,0 +1,17 @@
+{
+    "contents" : "aidsSystemData3 <- read.csv(\"~/OneDrive - Colostate/Dissertation Topics/EDM Crops/aidsSystemData3.csv\")\n   View(aidsSystemData3)\nlibrary(\"micEconAids\")\npriceNames <- c(\"pCorn\", \"pBarley\", \"pSoy\", \"pPeanut\", \"pCottonSeed\",\n                 \"pRice\", \"pWheat\")\nshareNames <- c(\"wCorn\", \"wBarley\", \"wSoy\", \"wPeanuts\", \"wCottonSeed\",\n                 \"wRice\", \"wWheat\")\nbestA0 <- aidsBestA0(priceNames, shareNames, \"eTotal\", data=aidsSystemData3)\nestResult <- aidsEst(priceNames, shareNames, \"eTotal\", data = aidsSystemData3, priceIndex = \"S\", method = \"LA\", alpha0 = bestA0$alpha0, restrict.regMat = TRUE)\nwMeans <- colMeans(aidsSystemData3[,shareNames])\naidsElas(estResult$coef, shares = wMeans, method = \"Ch\", priceIndex = \"S\")\ncheckConsist(estResult)",
+    "created" : 1478648169993.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "889021996",
+    "id" : "3B74A4A5",
+    "lastKnownWriteTime" : 1478648341,
+    "path" : "~/OneDrive - Colostate/Dissertation Topics/EDM Crops/Demand Elasticities/edmDemandElast.R",
+    "project_path" : null,
+    "properties" : {
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "type" : "r_source"
+}
