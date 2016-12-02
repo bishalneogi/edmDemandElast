@@ -1,0 +1,18 @@
+{
+    "contents" : "#Load required packages\nlibrary(boot)\nlibrary(micEconAids)\n#Load data, be sure to adjust your working directory\n# aidsSystemData3 <- read.csv(\"aidsSystemData3.csv\")\n# aidsSystemData3LR <- read.csv(\"aidsSystemData3LR.csv\")\n#Use reduced data frame for estimation\nload(dat.Rda)\nload(datLR.Rda)\n#Create vectors of price and share names for AIDS estimation\npriceNames <- c(\"pCorn\", \"pBarley\", \"pSoy\", \"pPeanut\", \"pCottonSeed\",\n                \"pRice\", \"pWheat\")\nshareNames <- c(\"wCorn\", \"wBarley\", \"wSoy\", \"wPeanuts\", \"wCottonSeed\",\n                \"wRice\", \"wWheat\")\n# Short Run Elasticities ---------------------------------------------------\n#Estimate short run elasticities\nbestA0 <- aidsBestA0(priceNames, shareNames, \"eTotal\", data=dat)\nestResultSR <- aidsEst(priceNames, shareNames, \"eTotal\", data = dat, \n                     priceIndex = \"S\", method = \"LA\", alpha0 = bestA0$alpha0, restrict.regMat = TRUE)#restrict.regMat = TRUE forces consistency with theory.  Probably best to set to FALSE and check that.\nwMeans <- colMeans(dat[,shareNames])\nSR <- aidsElas(estResult$coef, shares = wMeans, priceIndex = \"S\", method = \"Ch\")\n#Check SR results for consistency with demand theory\ncheckConsist(estResultSR)\n# bootstrapping with 1000 replications \n#Create a function for the boot package to use\nelast <- function(data = dat, indices ){\n    d <- data[indices,]\n    return(aidsElas(aidsEst(priceNames, shareNames, \"eTotal\", d , priceIndex = \"S\", method = \"LA\", alpha0 = aidsBestA0(priceNames, shareNames, \"eTotal\", priceNames ,shareNames , colMeans(d[,shareNames]) , d)$alpha0, restrict.regMat = TRUE)$coef, shares = colMeans(d[,shareNames]), priceIndex = \"S\", method = \"Ch\")$marshall)\n}\n# Use the boot package to calculate std. error.\nresultsSR <- boot(data=dat, statistic=elast, \n                R=1000)\nresultsSR\nplot(results, index=1) # intercept \nplot(results, index=2) # wt \nplot(results, index=3) # disp \n\n## Long Run Elasticities-----------------------\n#Long-Run Elasticity Estimation\n#price lagged 10 years\nbestA0LR <- aidsBestA0(priceNames, shareNames, \"eTotal\", data=datLR)\nestResultLR <- aidsEst(priceNames, shareNames, \"eTotal\", data = datLR, priceIndex = \"S\", method = \"LA\", alpha0 = bestA0$alpha0LR, restrict.regMat = TRUE)\nwMeans <- colMeans(datLR[,shareNames])\n#LR\nLR <- aidsElas(estResultLR$coef, shares = wMeans, method = \"Ch\", priceIndex = \"S\")\ncheckConsist(estResultLR)\n# bootstrapping with 1000 replications \n#Create a function for the boot package to use\nelastLR <- function(data = datLR, indices ){\n    d <- data[indices,]\n    return(aidsElas(aidsEst(priceNames, shareNames, \"eTotal\", d , priceIndex = \"S\", method = \"LA\", alpha0 = aidsBestA0(priceNames, shareNames, \"eTotal\", priceNames ,shareNames , colMeans(d[,shareNames]) , d)$alpha0, restrict.regMat = TRUE)$coef, shares = colMeans(d[,shareNames]), priceIndex = \"S\", method = \"Ch\")$marshall)\n}\n# Use the boot package to calculate std. error.\nresultsLR <- boot(data=datLR, statistic=elastLR, \n                  R=1000)\nresultsLR\nplot(results, index=1) # intercept \nplot(results, index=2) # wt \nplot(results, index=3) # disp \n",
+    "created" : 1480694959138.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3437110470",
+    "id" : "DF2B9B3D",
+    "lastKnownWriteTime" : 1480703677,
+    "path" : "~/Documents/Dissertation EDM/edmDemandElast/ElasticityEstimationandBootstrap.R",
+    "project_path" : "ElasticityEstimationandBootstrap.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

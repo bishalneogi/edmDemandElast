@@ -1,0 +1,17 @@
+{
+    "contents" : "library(\"micEconAids\")\n#data collected from ers yearbook tables, price and quantity matched, ie millions of bu multiplied by 1million \n#Short-Run Elasticity Estimation\naidsSystemData3 <- read.csv(\"~/OneDrive - Colostate/Dissertation Topics/EDM Crops/aidsSystemData3.csv\")\n   View(aidsSystemData3)\n\npriceNames <- c(\"pCorn\", \"pBarley\", \"pSoy\", \"pPeanut\", \"pCottonSeed\",\n                 \"pRice\", \"pWheat\")\nshareNames <- c(\"wCorn\", \"wBarley\", \"wSoy\", \"wPeanuts\", \"wCottonSeed\",\n                 \"wRice\", \"wWheat\")\nbestA0 <- aidsBestA0(priceNames, shareNames, \"eTotal\", data=aidsSystemData3)\nestResult <- aidsEst(priceNames, shareNames, \"eTotal\", data = aidsSystemData3, priceIndex = \"S\", method = \"LA\", alpha0 = bestA0$alpha0, restrict.regMat = TRUE)\npMeans <- colMeans(aidsSystemData3[,priceNames])\nwMeans <- colMeans(aidsSystemData3[,shareNames])\n#SR\nSR <- aidsElas(estResult$coef, shares = wMeans, priceIndex = \"S\", method = \"Ch\")\ncheckConsist(estResult)\n#for checking different estimation techniques against each other\n# SRm <- SR$marshall\n# SRitm <- SRi$marshall\n# z<-SR$marshall==SRi$marshall\n\n\n#Long-Run Elasticity Estimation\n#price lagged 10 years\naidsSystemData3LR <- read.csv(\"~/OneDrive - Colostate/Dissertation Topics/EDM Crops/aidsSystemData3LR.csv\")\npriceNames <- c(\"pCorn\", \"pBarley\", \"pSoy\", \"pPeanut\", \"pCottonSeed\",\n                \"pRice\", \"pWheat\")\nshareNames <- c(\"wCorn\", \"wBarley\", \"wSoy\", \"wPeanuts\", \"wCottonSeed\",\n                \"wRice\", \"wWheat\")\nbestA0LR <- aidsBestA0(priceNames, shareNames, \"eTotal\", data=aidsSystemData3LR)\nestResultLR <- aidsEst(priceNames, shareNames, \"eTotal\", data = aidsSystemData3LR, priceIndex = \"S\", method = \"LA\", alpha0 = bestA0$alpha0LR, restrict.regMat = TRUE)\nwMeans <- colMeans(aidsSystemData3LR[,shareNames])\n#LR\naidsElas(estResultLR$coef, shares = wMeans, method = \"Ch\", priceIndex = \"S\")\ncheckConsist(estResultLR)",
+    "created" : 1480636281984.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "421613367",
+    "id" : "90F9A02A",
+    "lastKnownWriteTime" : 1480704120,
+    "path" : "~/OneDrive - Colostate/Dissertation Topics/EDM Crops/Demand Elasticities/edmDemandElast.R",
+    "project_path" : null,
+    "properties" : {
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "type" : "r_source"
+}
